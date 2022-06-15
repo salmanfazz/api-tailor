@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use  App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Model;
 
 class AuthController extends Controller
 {
-
-
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'refresh', 'logout']]);
+        $this->middleware('auth:api', ['except' => ['login', 'refresh', 'logout', 'register']]);
     }
     /**
      * Get a JWT via given credentials.
@@ -38,7 +39,7 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $this->validate($request, [
             'email' => 'required',
             'password' => 'required',
             'nama' => 'required',
@@ -47,10 +48,6 @@ class AuthController extends Controller
             'no_hp' => 'required',
             'roles' => 'required',
         ]);
-
-        if($validator->fails()){
-            return response()->json($validator->message());
-        }
 
         $user = User::create([
             'email' => request('email'),
