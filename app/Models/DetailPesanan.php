@@ -10,6 +10,6 @@ class DetailPesanan extends Model
     protected $primaryKey = "id_detail_pesanans";
 
     protected $fillable = [
-        'lingkar_dada','lingkar_pinggung','lingkar_pinggang','panjang_baju','panjang_lengan','panjang_celana','keterangan','gambar'
+        'lingkar_dada','lingkar_pinggul','lingkar_pinggang','panjang_baju','panjang_lengan','panjang_celana','keterangan','gambar'
     ];
 }
