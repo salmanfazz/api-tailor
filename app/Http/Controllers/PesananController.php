@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Pesanan;
 use App\Models\DetailPesanan;
 
@@ -25,7 +26,6 @@ class PesananController extends Controller
         $this->validate($request, [
             'id_users_1' => 'required',
             'id_users_2' => 'required',
-            'id_detail_pesanans' => 'required',
             'lingkar_dada' => 'required',
             'lingkar_pinggul' => 'required',
             'lingkar_pinggang' => 'required',
@@ -34,12 +34,6 @@ class PesananController extends Controller
             'panjang_celana' => 'required',
             'keterangan' => 'required',
             'gambar' => 'required',
-        ]);
-
-        $pesanan = Pesanan::create([
-            'id_users_1' => request('id_users_1'),
-            'id_users_2' => request('id_users_2'),
-            'id_detail_pesanans' => request('id_detail_pesanans'),
         ]);
 
         $detail_pesanan = DetailPesanan::create([
@@ -51,6 +45,14 @@ class PesananController extends Controller
             'panjang_celana' => request('panjang_celana'),
             'keterangan' => request('keterangan'),
             'gambar' => request('gambar'),
+        ]);
+
+        $detail = DetailPesanan::latest('id_detail_pesanans')->first();
+
+        $pesanan = Pesanan::create([
+            'id_users_1' => request('id_users_1'),
+            'id_users_2' => request('id_users_2'),
+            'id_detail_pesanans' => $detail->id_detail_pesanans,
         ]);
 
         if($pesanan) {
