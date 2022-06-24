@@ -17,7 +17,11 @@ class PesananController extends Controller
 
     public function index()
     {
-        $pesanan = Pesanan::all();
+        $pesanan = DB::table('pesanans')
+        ->select('pesanans.id_pesanans', 'pesanans.id_users_1', 'pesanans.id_users_2', 'detail_pesanans.lingkar_dada', 'detail_pesanans.lingkar_pinggul', 'detail_pesanans.lingkar_pinggang', 'detail_pesanans.panjang_baju', 'detail_pesanans.panjang_lengan', 'detail_pesanans.panjang_celana', 'detail_pesanans.keterangan', 'detail_pesanans.gambar')
+        ->join('detail_pesanans', 'detail_pesanans.id_detail_pesanans', '=', 'pesanans.id_detail_pesanans')
+        ->join('users', 'users.id_users', '=', 'pesanans.id_users_1')
+        ->get();
         return response()->json($pesanan);
     }
 
