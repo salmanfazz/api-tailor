@@ -59,7 +59,12 @@ class PesananController extends Controller
             'id_detail_pesanans' => $detail->id_detail_pesanans,
         ]);
 
-        if($pesanan) {
+        $pembayaran = History::create([
+            'id_pesanans' => $pesanan->id_pesanans,
+            'status' => 'Belum Dibayar'
+        ]);
+
+        if($pembayaran) {
             return response()->json(['message' => 'Pesanan Berhasil Dibuat']);
         } else {
             return response()->json(['message' => 'Pesanan Gagal Dibuat']);
